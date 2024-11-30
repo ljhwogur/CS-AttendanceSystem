@@ -7,7 +7,7 @@
 분석할 수 있는 어플리케이션입니다.
 
 #### 기술 스택
-프로그랭밍 언어: C# (.NET Framework, Widows Forms)
-데이터베이스: Oracle Database
-UI 구성: ListView 및 DataGridView를 활용
+프로그랭밍 언어: C# (.NET Framework, Widows Forms)<br/>
+데이터베이스: Oracle Database<br/>
+UI 구성: ListView 및 DataGridView를 활용<br/>
 보고서:TXT 파일로 통계 정보 출력
