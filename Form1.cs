@@ -143,26 +143,26 @@ namespace AttendanceSystem
                 {
                     conn.Open();
 
-                    // 데이터 존재 여부 확인
-                    string checkQuery = "SELECT COUNT(*) FROM Students WHERE StudentID = :StudentID";
-                    using (OracleCommand checkCmd = new OracleCommand(checkQuery, conn))
-                    {
-                        checkCmd.Parameters.Add(new OracleParameter("StudentID", textBoxStudentID.Text));
-                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    // 자식 테이블 데이터 삭제
+                    string deleteAttendanceQuery = "DELETE FROM Attendance WHERE StudentID = :StudentID";
+                    string deleteStudentCoursesQuery = "DELETE FROM StudentCourses WHERE StudentID = :StudentID";
+                    string deleteStudentQuery = "DELETE FROM Students WHERE StudentID = :StudentID";
 
-                        if (count == 0)
-                        {
-                            MessageBox.Show("없는 데이터입니다.");
-                            return;
-                        }
-                    }
-
-                    // 데이터 삭제
-                    string deleteQuery = "DELETE FROM Students WHERE StudentID = :StudentID";
-                    using (OracleCommand deleteCmd = new OracleCommand(deleteQuery, conn))
+                    using (OracleCommand cmd1 = new OracleCommand(deleteAttendanceQuery, conn))
+                    using (OracleCommand cmd2 = new OracleCommand(deleteStudentCoursesQuery, conn))
+                    using (OracleCommand cmd3 = new OracleCommand(deleteStudentQuery, conn))
                     {
-                        deleteCmd.Parameters.Add(new OracleParameter("StudentID", textBoxStudentID.Text));
-                        deleteCmd.ExecuteNonQuery();
+                        cmd1.Parameters.Add(new OracleParameter("StudentID", textBoxStudentID.Text));
+                        cmd2.Parameters.Add(new OracleParameter("StudentID", textBoxStudentID.Text));
+                        cmd3.Parameters.Add(new OracleParameter("StudentID", textBoxStudentID.Text));
+
+                        // 자식 테이블 데이터 삭제
+                        cmd1.ExecuteNonQuery();
+                        cmd2.ExecuteNonQuery();
+
+                        // 부모 테이블 데이터 삭제
+                        cmd3.ExecuteNonQuery();
+
                         MessageBox.Show("학생 정보가 삭제되었습니다.");
                     }
 
